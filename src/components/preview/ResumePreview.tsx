@@ -5,7 +5,7 @@ import { MinimalistTemplate } from './templates/MinimalistTemplate';
 import { ExecutiveTemplate } from './templates/ExecutiveTemplate';
 import { TechTemplate } from './templates/TechTemplate';
 import { getFontFamilyCSS } from '@/types/resume';
-import { ZoomIn, ZoomOut, Maximize2, RotateCcw, Edit3, FileText } from 'lucide-react';
+import { Minus, Plus, RotateCcw } from 'lucide-react';
 
 export const ResumePreview: React.FC = () => {
   const { resume, zoomLevel, setZoomLevel } = useResumeStore();
@@ -46,59 +46,29 @@ export const ResumePreview: React.FC = () => {
     }
   };
 
+  const templateLabel =
+    resume.settings.template === 'modern'
+      ? 'ATS Classic'
+      : resume.settings.template === 'minimalist'
+      ? 'ATS Clean'
+      : resume.settings.template === 'executive'
+      ? 'ATS Professional'
+      : 'ATS Tech';
+
   return (
     <div className="preview-panel">
       {/* Preview Top Toolbar */}
       <div className="preview-toolbar">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#94a3b8' }}>Live A4 Preview</span>
-          <span
-            style={{
-              fontSize: '0.72rem',
-              backgroundColor: 'rgba(16, 185, 129, 0.2)',
-              color: '#34d399',
-              padding: '2px 8px',
-              borderRadius: '10px',
-              fontWeight: 600,
-            }}
-          >
-            ATS {resume.settings.template === 'modern' ? 'CLASSIC' : resume.settings.template === 'minimalist' ? 'CLEAN' : resume.settings.template === 'executive' ? 'PROFESSIONAL' : 'TECH'}
+        <div className="preview-meta-group">
+          <span style={{ fontWeight: 600, color: 'var(--text-main)' }}>A4 Preview</span>
+          <span style={{ color: 'var(--border-strong)' }}>·</span>
+          <span className="preview-meta-badge">{templateLabel}</span>
+          <span className="preview-meta-badge" title={`Total ${pageCount} halaman A4 ketika diexport ke PDF`}>
+            {pageCount} Hal
           </span>
-          <span
-            style={{
-              fontSize: '0.72rem',
-              backgroundColor: pageCount > 1 ? 'rgba(59, 130, 246, 0.2)' : 'rgba(148, 163, 184, 0.15)',
-              color: pageCount > 1 ? '#60a5fa' : '#cbd5e1',
-              padding: '2px 8px',
-              borderRadius: '10px',
-              fontWeight: 600,
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4px',
-              border: '1px solid rgba(59, 130, 246, 0.3)',
-            }}
-            title={`Total ${pageCount} halaman A4 ketika diexport ke PDF`}
-          >
-            <FileText size={11} />
-            <span>{pageCount} Halaman A4</span>
-          </span>
-          <span
-            style={{
-              fontSize: '0.72rem',
-              backgroundColor: 'rgba(56, 189, 248, 0.12)',
-              color: '#38bdf8',
-              padding: '2px 8px',
-              borderRadius: '8px',
-              fontWeight: 600,
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4px',
-              border: '1px solid rgba(56, 189, 248, 0.25)',
-            }}
-            title="Klik langsung teks di lembar CV untuk mengetik atau menghapus"
-          >
-            <Edit3 size={11} />
-            <span>Klik teks di preview untuk edit/hapus langsung</span>
+          <span style={{ color: 'var(--border-strong)' }}>·</span>
+          <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>
+            Klik teks pada kertas untuk mengedit langsung
           </span>
         </div>
 
@@ -106,30 +76,39 @@ export const ResumePreview: React.FC = () => {
         <div className="preview-scale-controls">
           <button
             onClick={handleZoomOut}
-            className="btn btn-secondary btn-sm"
-            title="Zoom Out"
-            style={{ padding: '4px 8px' }}
+            className="btn btn-ghost btn-sm"
+            title="Perkecil"
+            style={{ padding: '4px 6px' }}
           >
-            <ZoomOut size={14} />
+            <Minus size={13} />
           </button>
-          <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#cbd5e1', minWidth: '42px', textAlign: 'center' }}>
+          <span
+            style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.74rem',
+              fontWeight: 500,
+              color: 'var(--text-secondary)',
+              minWidth: '40px',
+              textAlign: 'center',
+            }}
+          >
             {zoomLevel}%
           </span>
           <button
             onClick={handleZoomIn}
-            className="btn btn-secondary btn-sm"
-            title="Zoom In"
-            style={{ padding: '4px 8px' }}
+            className="btn btn-ghost btn-sm"
+            title="Perbesar"
+            style={{ padding: '4px 6px' }}
           >
-            <ZoomIn size={14} />
+            <Plus size={13} />
           </button>
           <button
             onClick={handleResetZoom}
             className="btn btn-ghost btn-sm"
-            title="Reset Zoom to 100%"
-            style={{ padding: '4px 8px' }}
+            title="Reset Zoom 100%"
+            style={{ padding: '4px 6px' }}
           >
-            <RotateCcw size={13} />
+            <RotateCcw size={12} />
           </button>
         </div>
       </div>

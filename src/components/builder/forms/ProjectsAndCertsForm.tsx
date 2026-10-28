@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useResumeStore } from '@/store/useResumeStore';
-import { FolderGit2, Plus, Trash2, Globe, Github, Award, Languages } from 'lucide-react';
+import { Plus, Trash2 } from 'lucide-react';
 import { LanguageItem } from '@/types/resume';
 
 export const ProjectsAndCertsForm: React.FC = () => {
@@ -20,35 +20,33 @@ export const ProjectsAndCertsForm: React.FC = () => {
   const { projects, certifications, languages } = resume;
 
   return (
-    <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+    <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       {/* Projects Section */}
-      <div className="form-section-card">
+      <div className="form-section-card" style={{ marginBottom: 0 }}>
         <div className="section-title-wrap">
           <div>
-            <h2 className="section-title">
-              <FolderGit2 size={18} color="var(--primary)" />
-              Featured Projects
-            </h2>
-            <p className="section-desc">Showcase applications, systems, open-source work, or portfolio items</p>
+            <h2 className="section-title">Featured Projects</h2>
+            <p className="section-desc">Proyek unggulan, produk, riset, atau karya portofolio</p>
           </div>
-          <button onClick={() => addProject()} className="btn btn-primary btn-sm">
-            <Plus size={14} />
+          <button onClick={() => addProject()} className="btn btn-secondary btn-sm">
+            <Plus size={13} />
             <span>Add Project</span>
           </button>
         </div>
 
         {projects.length === 0 ? (
-          <p style={{ fontSize: '0.8rem', color: '#94a3b8' }}>No projects added yet.</p>
+          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>No projects added yet.</p>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {projects.map((proj) => (
-              <div key={proj.id} className="item-card">
-                <div className="item-card-header">
+              <div key={proj.id} className="item-card" style={{ marginBottom: 0 }}>
+                <div className="item-card-header" style={{ marginBottom: '12px' }}>
                   <div className="item-card-title">{proj.title || 'Project Name'}</div>
                   <button
                     onClick={() => deleteProject(proj.id)}
                     className="btn btn-ghost btn-sm"
-                    style={{ color: '#f87171' }}
+                    style={{ color: 'var(--text-muted)' }}
+                    title="Hapus proyek"
                   >
                     <Trash2 size={14} />
                   </button>
@@ -61,7 +59,7 @@ export const ProjectsAndCertsForm: React.FC = () => {
                       type="text"
                       value={proj.title}
                       onChange={(e) => updateProject(proj.id, { title: e.target.value })}
-                      placeholder="e.g. AI Invoice Extractor"
+                      placeholder="e.g. Automated Invoice Parser"
                       className="form-input"
                     />
                   </div>
@@ -72,15 +70,13 @@ export const ProjectsAndCertsForm: React.FC = () => {
                       type="text"
                       value={proj.role}
                       onChange={(e) => updateProject(proj.id, { role: e.target.value })}
-                      placeholder="e.g. Creator / Full Stack Engineer"
+                      placeholder="e.g. Lead Engineer"
                       className="form-input"
                     />
                   </div>
 
                   <div className="form-group">
-                    <label className="form-label">
-                      <Globe size={12} /> Live Demo URL
-                    </label>
+                    <label className="form-label">Live Demo URL</label>
                     <input
                       type="url"
                       value={proj.link}
@@ -91,9 +87,7 @@ export const ProjectsAndCertsForm: React.FC = () => {
                   </div>
 
                   <div className="form-group">
-                    <label className="form-label">
-                      <Github size={12} /> GitHub Repo URL
-                    </label>
+                    <label className="form-label">Repository URL</label>
                     <input
                       type="url"
                       value={proj.github}
@@ -104,7 +98,7 @@ export const ProjectsAndCertsForm: React.FC = () => {
                   </div>
 
                   <div className="form-group form-grid-full">
-                    <label className="form-label">Tech Stack (comma separated)</label>
+                    <label className="form-label">Tech Stack / Tools (comma separated)</label>
                     <input
                       type="text"
                       value={proj.technologies?.join(', ') || ''}
@@ -136,27 +130,24 @@ export const ProjectsAndCertsForm: React.FC = () => {
       </div>
 
       {/* Certifications Section */}
-      <div className="form-section-card">
+      <div className="form-section-card" style={{ marginBottom: 0 }}>
         <div className="section-title-wrap">
           <div>
-            <h2 className="section-title">
-              <Award size={18} color="var(--primary)" />
-              Certifications & Licenses
-            </h2>
-            <p className="section-desc">Credentials from AWS, Google Cloud, Meta, or industry bodies</p>
+            <h2 className="section-title">Certifications & Licenses</h2>
+            <p className="section-desc">Sertifikasi profesi, lisensi resmi, atau pelatihan industri</p>
           </div>
-          <button onClick={() => addCertification()} className="btn btn-primary btn-sm">
-            <Plus size={14} />
+          <button onClick={() => addCertification()} className="btn btn-secondary btn-sm">
+            <Plus size={13} />
             <span>Add Cert</span>
           </button>
         </div>
 
         {certifications.length === 0 ? (
-          <p style={{ fontSize: '0.8rem', color: '#94a3b8' }}>No certifications added yet.</p>
+          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>No certifications added yet.</p>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {certifications.map((cert) => (
-              <div key={cert.id} className="item-card">
+              <div key={cert.id} className="item-card" style={{ marginBottom: 0 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div className="form-grid" style={{ flex: 1, marginRight: '10px' }}>
                     <div className="form-group">
@@ -183,7 +174,8 @@ export const ProjectsAndCertsForm: React.FC = () => {
                   <button
                     onClick={() => deleteCertification(cert.id)}
                     className="btn btn-ghost btn-sm"
-                    style={{ color: '#f87171' }}
+                    style={{ color: 'var(--text-muted)' }}
+                    title="Hapus sertifikasi"
                   >
                     <Trash2 size={14} />
                   </button>
@@ -195,32 +187,29 @@ export const ProjectsAndCertsForm: React.FC = () => {
       </div>
 
       {/* Languages Section */}
-      <div className="form-section-card">
+      <div className="form-section-card" style={{ marginBottom: 0 }}>
         <div className="section-title-wrap">
           <div>
-            <h2 className="section-title">
-              <Languages size={18} color="var(--primary)" />
-              Languages
-            </h2>
-            <p className="section-desc">Languages you speak and your proficiency level</p>
+            <h2 className="section-title">Languages</h2>
+            <p className="section-desc">Bahasa yang dikuasai beserta tingkat kemahiran</p>
           </div>
-          <button onClick={() => addLanguage()} className="btn btn-primary btn-sm">
-            <Plus size={14} />
+          <button onClick={() => addLanguage()} className="btn btn-secondary btn-sm">
+            <Plus size={13} />
             <span>Add Language</span>
           </button>
         </div>
 
         {languages.length === 0 ? (
-          <p style={{ fontSize: '0.8rem', color: '#94a3b8' }}>No languages added yet.</p>
+          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>No languages added yet.</p>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {languages.map((lang) => (
-              <div key={lang.id} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+              <div key={lang.id} style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                 <input
                   type="text"
                   value={lang.name}
                   onChange={(e) => updateLanguage(lang.id, { name: e.target.value })}
-                  placeholder="e.g. English, Indonesian"
+                  placeholder="e.g. English, Indonesian, Arabic"
                   className="form-input"
                   style={{ flex: 1 }}
                 />
@@ -241,7 +230,8 @@ export const ProjectsAndCertsForm: React.FC = () => {
                 <button
                   onClick={() => deleteLanguage(lang.id)}
                   className="btn btn-ghost btn-sm"
-                  style={{ color: '#f87171' }}
+                  style={{ color: 'var(--text-muted)' }}
+                  title="Hapus bahasa"
                 >
                   <Trash2 size={14} />
                 </button>

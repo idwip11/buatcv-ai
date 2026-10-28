@@ -7,7 +7,7 @@ import { Navbar } from '@/components/Navbar';
 import { BuilderPanel } from '@/components/builder/BuilderPanel';
 import { ResumePreview } from '@/components/preview/ResumePreview';
 import { LinkedInModal } from '@/components/common/LinkedInModal';
-import { Edit3, Eye, Github } from 'lucide-react';
+import { Github } from 'lucide-react';
 
 function BuilderContent() {
   const searchParams = useSearchParams();
@@ -59,24 +59,23 @@ function BuilderContent() {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#0f172a',
-          gap: '16px',
+          backgroundColor: 'var(--bg-app)',
+          gap: '12px',
         }}
       >
-        <img
-          src="/logo-dark.png"
-          alt="BuatCV AI"
-          style={{ height: '48px', width: 'auto', objectFit: 'contain' }}
-        />
+        <div className="brand-mark" style={{ width: '32px', height: '32px', fontSize: '0.82rem' }}>
+          CV
+        </div>
         <div
           style={{
-            color: '#38bdf8',
-            fontSize: '0.92rem',
-            fontWeight: 600,
-            letterSpacing: '0.04em',
+            color: 'var(--text-muted)',
+            fontFamily: 'var(--font-mono)',
+            fontSize: '0.78rem',
+            fontWeight: 500,
+            letterSpacing: '0.02em',
           }}
         >
-          Loading BuatCV AI...
+          Memuat ruang kerja...
         </div>
       </div>
     );
@@ -91,11 +90,11 @@ function BuilderContent() {
       <div
         style={{
           display: 'none',
-          backgroundColor: '#1e293b',
-          borderBottom: '1px solid #334155',
+          backgroundColor: 'var(--bg-surface)',
+          borderBottom: '1px solid var(--border-subtle)',
           padding: '8px 16px',
           justifyContent: 'center',
-          gap: '12px',
+          gap: '8px',
         }}
         className="mobile-tab-bar"
       >
@@ -103,15 +102,13 @@ function BuilderContent() {
           onClick={() => setMobileTab('editor')}
           className={`btn btn-sm ${mobileTab === 'editor' ? 'btn-primary' : 'btn-secondary'}`}
         >
-          <Edit3 size={14} />
           <span>Editor</span>
         </button>
         <button
           onClick={() => setMobileTab('preview')}
           className={`btn btn-sm ${mobileTab === 'preview' ? 'btn-primary' : 'btn-secondary'}`}
         >
-          <Eye size={14} />
-          <span>Preview</span>
+          <span>Preview A4</span>
         </button>
       </div>
 
@@ -128,8 +125,8 @@ function BuilderContent() {
       {/* App Bottom Footer */}
       <footer className="app-footer">
         <div className="app-footer-left">
-          <span className="app-footer-brand">BuatCV AI</span>
-          <span className="app-footer-divider">•</span>
+          <span className="app-footer-brand">BuatCV</span>
+          <span className="app-footer-divider">/</span>
           <span className="app-footer-desc">ATS-Friendly Resume Builder</span>
         </div>
 
@@ -141,7 +138,7 @@ function BuilderContent() {
             rel="noopener noreferrer"
             className="app-footer-link"
           >
-            <Github size={13} />
+            <Github size={12} />
             <span>idwip11</span>
           </a>
         </div>
@@ -155,7 +152,7 @@ function BuilderContent() {
 
 export default function Home() {
   return (
-    <Suspense fallback={<div style={{ height: '100vh', background: '#0f172a' }} />}>
+    <Suspense fallback={<div style={{ height: '100vh', background: '#faf9f6' }} />}>
       <BuilderContent />
     </Suspense>
   );

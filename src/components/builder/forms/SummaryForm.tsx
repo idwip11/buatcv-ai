@@ -1,6 +1,5 @@
 import React from 'react';
 import { useResumeStore } from '@/store/useResumeStore';
-import { FileText, Lightbulb } from 'lucide-react';
 
 const summaryStarters = [
   {
@@ -35,65 +34,60 @@ export const SummaryForm: React.FC = () => {
       <div className="form-section-card">
         <div className="section-title-wrap">
           <div>
-            <h2 className="section-title">
-              <FileText size={18} color="var(--primary)" />
-              Professional Summary
-            </h2>
+            <h2 className="section-title">Professional Summary</h2>
             <p className="section-desc">
-              A compelling 2–4 sentence overview of your background, core strengths, and achievements
+              Ringkasan singkat 2–4 kalimat mengenai latar belakang, keahlian utama, dan pencapaian Anda
             </p>
           </div>
-          <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{wordCount} words</span>
+          <span
+            style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.72rem',
+              color: 'var(--text-muted)',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {wordCount} words
+          </span>
         </div>
 
         <div className="form-group">
           <textarea
             value={resume.summary}
             onChange={(e) => updateSummary(e.target.value)}
-            placeholder="Write your career summary or choose one of the pre-crafted suggestions below..."
+            placeholder="Write your career summary or choose one of the pre-crafted templates below..."
             className="form-textarea"
             rows={5}
           />
         </div>
 
-        {/* AI & Pre-crafted Suggestions (Zety Style) */}
-        <div style={{ marginTop: '20px' }}>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              fontSize: '0.8rem',
-              fontWeight: 700,
-              color: '#38bdf8',
-              marginBottom: '10px',
-            }}
-          >
-            <Lightbulb size={14} />
-            <span>Pilihan Contoh Ringkasan Profil (Klik untuk gunakan):</span>
-          </div>
+        {/* Pre-crafted Suggestions */}
+        <div style={{ marginTop: '22px', borderTop: '1px solid var(--border-subtle)', paddingTop: '16px' }}>
+          <span className="suggestion-label">Contoh Ringkasan Profil — Klik untuk Gunakan</span>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {summaryStarters.map((item, idx) => (
               <div
                 key={idx}
                 onClick={() => handleUseStarter(item.text)}
-                style={{
-                  background: 'rgba(15, 23, 42, 0.6)',
-                  border: '1px solid #334155',
-                  borderRadius: '8px',
-                  padding: '12px',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s',
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#3b82f6')}
-                onMouseLeave={(e) => (e.currentTarget.style.borderColor = '#334155')}
+                className="suggestion-card"
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                  <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#f1f5f9' }}>{item.role}</span>
-                  <span style={{ fontSize: '0.7rem', color: '#60a5fa', fontWeight: 600 }}>Use this</span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                  <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-main)' }}>{item.role}</span>
+                  <span
+                    style={{
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: '0.68rem',
+                      color: 'var(--text-muted)',
+                      fontWeight: 500,
+                    }}
+                  >
+                    Gunakan →
+                  </span>
                 </div>
-                <p style={{ fontSize: '0.74rem', color: '#94a3b8', lineHeight: 1.4 }}>{item.text}</p>
+                <p style={{ fontSize: '0.76rem', color: 'var(--text-secondary)', lineHeight: 1.45, margin: 0 }}>
+                  {item.text}
+                </p>
               </div>
             ))}
           </div>

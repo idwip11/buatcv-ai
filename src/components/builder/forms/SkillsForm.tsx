@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useResumeStore } from '@/store/useResumeStore';
-import { Award, Plus, X } from 'lucide-react';
+import { Plus, X } from 'lucide-react';
 import { SkillItem } from '@/types/resume';
 
 const suggestedSkills = [
@@ -22,7 +22,7 @@ const suggestedSkills = [
 ];
 
 export const SkillsForm: React.FC = () => {
-  const { resume, addSkill, deleteSkill, updateSkill } = useResumeStore();
+  const { resume, addSkill, deleteSkill } = useResumeStore();
   const { skills } = resume;
   const [skillInput, setSkillInput] = useState('');
   const [selectedLevel, setSelectedLevel] = useState<SkillItem['level']>('Advanced');
@@ -54,23 +54,29 @@ export const SkillsForm: React.FC = () => {
       <div className="form-section-card">
         <div className="section-title-wrap">
           <div>
-            <h2 className="section-title">
-              <Award size={18} color="var(--primary)" />
-              Skills & Expertise
-            </h2>
-            <p className="section-desc">Key technical proficiencies, tools, and professional competencies</p>
+            <h2 className="section-title">Skills & Expertise</h2>
+            <p className="section-desc">Kompetensi teknis, perangkat lunak, dan keahlian profesional</p>
           </div>
-          <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{skills.length} skills</span>
+          <span
+            style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.72rem',
+              color: 'var(--text-muted)',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {skills.length} items
+          </span>
         </div>
 
         {/* Add Skill Input Row */}
-        <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
+        <div style={{ display: 'flex', gap: '8px', marginBottom: '14px' }}>
           <input
             type="text"
             value={skillInput}
             onChange={(e) => setSkillInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Type a skill and press Enter (e.g. Next.js, Product Strategy)..."
+            placeholder="Ketik keahlian lalu tekan Enter (e.g. Next.js, Financial Modeling)..."
             className="form-input"
             style={{ flex: 1 }}
           />
@@ -86,13 +92,13 @@ export const SkillsForm: React.FC = () => {
             <option value="Expert">Expert</option>
           </select>
           <button onClick={() => handleAddSkill()} className="btn btn-primary">
-            <Plus size={15} />
+            <Plus size={14} />
             <span>Add</span>
           </button>
         </div>
 
         {/* Existing Skills Chips */}
-        <div className="skills-container" style={{ minHeight: '60px' }}>
+        <div className="skills-container" style={{ minHeight: '48px' }}>
           {skills.map((skill) => (
             <div key={skill.id} className="skill-chip">
               <span>{skill.name}</span>
@@ -101,28 +107,15 @@ export const SkillsForm: React.FC = () => {
                 className="skill-chip-delete"
                 title="Remove skill"
               >
-                <X size={13} />
+                <X size={12} />
               </button>
             </div>
           ))}
         </div>
 
         {/* Quick Suggestion Pills */}
-        <div style={{ marginTop: '24px', borderTop: '1px solid #334155', paddingTop: '16px' }}>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              fontSize: '0.78rem',
-              fontWeight: 700,
-              color: '#38bdf8',
-              marginBottom: '10px',
-            }}
-          >
-            <Award size={14} />
-            <span>Rekomendasi Keahlian (Klik untuk menambahkan):</span>
-          </div>
+        <div style={{ marginTop: '22px', borderTop: '1px solid var(--border-subtle)', paddingTop: '16px' }}>
+          <span className="suggestion-label">Rekomendasi Keahlian — Klik untuk Menambahkan</span>
 
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
             {suggestedSkills
@@ -132,24 +125,7 @@ export const SkillsForm: React.FC = () => {
                   key={idx}
                   type="button"
                   onClick={() => handleAddSkill(suggested)}
-                  style={{
-                    background: 'rgba(15, 23, 42, 0.6)',
-                    border: '1px solid #334155',
-                    color: '#94a3b8',
-                    padding: '4px 10px',
-                    borderRadius: '16px',
-                    fontSize: '0.74rem',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = '#38bdf8';
-                    e.currentTarget.style.color = '#fff';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = '#334155';
-                    e.currentTarget.style.color = '#94a3b8';
-                  }}
+                  className="suggestion-pill"
                 >
                   + {suggested}
                 </button>

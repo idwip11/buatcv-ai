@@ -1,14 +1,13 @@
 import React from 'react';
 import { useResumeStore } from '@/store/useResumeStore';
-import { User, FileText, Briefcase, GraduationCap, Award, FolderGit2, CheckCircle2 } from 'lucide-react';
 
 const steps = [
-  { id: 1, title: 'Personal', icon: User },
-  { id: 2, title: 'Summary', icon: FileText },
-  { id: 3, title: 'Experience', icon: Briefcase },
-  { id: 4, title: 'Education', icon: GraduationCap },
-  { id: 5, title: 'Skills', icon: Award },
-  { id: 6, title: 'Projects & More', icon: FolderGit2 },
+  { id: 1, title: 'Personal' },
+  { id: 2, title: 'Summary' },
+  { id: 3, title: 'Experience' },
+  { id: 4, title: 'Education' },
+  { id: 5, title: 'Skills' },
+  { id: 6, title: 'Projects & More' },
 ];
 
 export const StepWizard: React.FC = () => {
@@ -18,9 +17,9 @@ export const StepWizard: React.FC = () => {
     <div className="builder-header">
       <div className="stepper-nav">
         {steps.map((step) => {
-          const Icon = step.icon;
           const isActive = activeStep === step.id;
           const isCompleted = activeStep > step.id;
+          const formattedNum = `0${step.id}`;
 
           return (
             <button
@@ -28,8 +27,7 @@ export const StepWizard: React.FC = () => {
               onClick={() => setActiveStep(step.id)}
               className={`step-item ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''}`}
             >
-              <div className="step-number">{isCompleted ? <CheckCircle2 size={13} /> : step.id}</div>
-              <Icon size={14} />
+              <span className="step-number">{isCompleted ? '✓' : formattedNum}</span>
               <span>{step.title}</span>
             </button>
           );

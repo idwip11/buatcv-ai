@@ -3,30 +3,16 @@ import { useResumeStore } from '@/store/useResumeStore';
 import { TemplateType, FontFamilyType, getFontFamilyCSS } from '@/types/resume';
 import { downloadResumePdf, printResume } from '@/utils/pdfExport';
 import {
-  FileText,
   Download,
   Printer,
-  Linkedin,
-  Palette,
-  Type,
-  LayoutTemplate,
-  RefreshCw,
+  ChevronDown,
   Check,
+  ArrowUpRight,
 } from 'lucide-react';
 
 interface NavbarProps {
   onOpenLinkedInModal: () => void;
 }
-
-const colorPresets = [
-  { name: 'Royal Blue', value: '#2563eb' },
-  { name: 'Emerald', value: '#059669' },
-  { name: 'Violet Indigo', value: '#7c3aed' },
-  { name: 'Crimson Rose', value: '#e11d48' },
-  { name: 'Amber Gold', value: '#d97706' },
-  { name: 'Ocean Cyan', value: '#0891b2' },
-  { name: 'Slate Executive', value: '#334155' },
-];
 
 const fontPresets: FontFamilyType[] = [
   'Inter',
@@ -37,10 +23,10 @@ const fontPresets: FontFamilyType[] = [
 ];
 
 const templatePresets: { id: TemplateType; name: string; tag: string }[] = [
-  { id: 'modern', name: 'ATS Classic', tag: 'Centered • Most Popular' },
-  { id: 'minimalist', name: 'ATS Clean', tag: 'Left-Aligned • Compact' },
-  { id: 'executive', name: 'ATS Professional', tag: 'Serif • Corporate' },
-  { id: 'tech', name: 'ATS Tech', tag: 'Skills-First • Developer' },
+  { id: 'modern', name: 'ATS Classic', tag: 'Centered · Standard' },
+  { id: 'minimalist', name: 'ATS Clean', tag: 'Left-Aligned · Compact' },
+  { id: 'executive', name: 'ATS Professional', tag: 'Serif · Editorial' },
+  { id: 'tech', name: 'ATS Tech', tag: 'Skills-First · Engineering' },
 ];
 
 export const Navbar: React.FC<NavbarProps> = ({ onOpenLinkedInModal }) => {
@@ -48,16 +34,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenLinkedInModal }) => {
     resume,
     updateResumeTitle,
     updateSettings,
-    resetToSample,
-    loadResumeData,
     isLinkedInConnected,
     linkedInAccount,
   } = useResumeStore();
 
   const [isExporting, setIsExporting] = useState(false);
-  const [showColorMenu, setShowColorMenu] = useState(false);
   const [showTemplateMenu, setShowTemplateMenu] = useState(false);
   const [showFontMenu, setShowFontMenu] = useState(false);
+
+  const currentTemplateName =
+    templatePresets.find((t) => t.id === resume.settings.template)?.name || 'Template';
+
   const handleDownloadPdf = async () => {
     setIsExporting(true);
     const sanitizedName = (resume.personalInfo.firstName + '_' + resume.personalInfo.lastName + '_CV')
@@ -72,173 +59,138 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenLinkedInModal }) => {
       {/* Brand & Resume Title */}
       <div className="brand-section">
         <div className="brand-badge" style={{ cursor: 'default' }}>
-          <img
-            src="/logo-dark.png"
-            alt="BuatCV AI"
-            style={{
-              height: '34px',
-              width: 'auto',
-              objectFit: 'contain',
-              display: 'block',
-            }}
-          />
+          <span className="brand-mark">CV</span>
+          <span>BuatCV</span>
         </div>
+
+        <span className="brand-divider">/</span>
 
         <input
           type="text"
           value={resume.title}
           onChange={(e) => updateResumeTitle(e.target.value)}
           className="brand-title-input"
-          title="Click to rename resume"
+          title="Klik untuk mengganti judul dokumen"
           placeholder="Untitled Resume"
         />
       </div>
 
-      {/* Quick Design Bar: Template, Color, Font */}
+      {/* Quick Design Bar: Template, Font, Actions */}
       <div className="nav-controls">
         {/* Template Selector Dropdown */}
         <div style={{ position: 'relative' }}>
           <button
             onClick={() => {
               setShowTemplateMenu(!showTemplateMenu);
-              setShowColorMenu(false);
               setShowFontMenu(false);
             }}
             className="btn btn-secondary btn-sm"
           >
-            <LayoutTemplate size={15} />
-            <span>Template</span>
+            <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>Layout:</span>
+            <span>{currentTemplateName}</span>
+            <ChevronDown size={13} color="var(--text-muted)" />
           </button>
           {showTemplateMenu && (
-            <div
-              style={{
-                position: 'absolute',
-                top: '100%',
-                left: 0,
-                marginTop: '8px',
-                background: '#1e293b',
-                border: '1px solid #334155',
-                borderRadius: '10px',
-                padding: '8px',
-                width: '210px',
-                boxShadow: 'var(--shadow-lg)',
-                zIndex: 60,
-              }}
-            >
-              {templatePresets.map((tmpl) => (
-                <button
-                  key={tmpl.id}
-                  onClick={() => {
-                    updateSettings({ template: tmpl.id });
-                    setShowTemplateMenu(false);
-                  }}
-                  style={{
-                    width: '100%',
-                    textAlign: 'left',
-                    padding: '8px 12px',
-                    borderRadius: '6px',
-                    background: resume.settings.template === tmpl.id ? 'rgba(37, 99, 235, 0.2)' : 'transparent',
-                    border: 'none',
-                    color: resume.settings.template === tmpl.id ? '#60a5fa' : '#e2e8f0',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    marginBottom: '4px',
-                  }}
-                >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontWeight: 600, fontSize: '0.82rem' }}>{tmpl.name}</span>
-                    {resume.settings.template === tmpl.id && <Check size={14} />}
-                  </div>
-                  <span style={{ fontSize: '0.68rem', color: '#94a3b8' }}>{tmpl.tag}</span>
-                </button>
-              ))}
+            <div className="dropdown-menu" style={{ width: '210px' }}>
+              {templatePresets.map((tmpl) => {
+                const isActive = resume.settings.template === tmpl.id;
+                return (
+                  <button
+                    key={tmpl.id}
+                    onClick={() => {
+                      updateSettings({ template: tmpl.id });
+                      setShowTemplateMenu(false);
+                    }}
+                    className={`dropdown-item ${isActive ? 'active' : ''}`}
+                    style={{ marginBottom: '2px' }}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontWeight: isActive ? 600 : 500, fontSize: '0.8rem', color: 'var(--text-main)' }}>
+                        {tmpl.name}
+                      </span>
+                      {isActive && <Check size={13} color="var(--text-main)" />}
+                    </div>
+                    <span style={{ fontSize: '0.68rem', color: 'var(--text-muted)', marginTop: '1px' }}>
+                      {tmpl.tag}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>
-
 
         {/* Font Picker */}
         <div style={{ position: 'relative' }}>
           <button
             onClick={() => {
               setShowFontMenu(!showFontMenu);
-              setShowColorMenu(false);
               setShowTemplateMenu(false);
             }}
             className="btn btn-secondary btn-sm"
           >
-            <Type size={15} />
+            <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>Font:</span>
             <span>{resume.settings.fontFamily}</span>
+            <ChevronDown size={13} color="var(--text-muted)" />
           </button>
           {showFontMenu && (
-            <div
-              style={{
-                position: 'absolute',
-                top: '100%',
-                left: 0,
-                marginTop: '8px',
-                background: '#1e293b',
-                border: '1px solid #334155',
-                borderRadius: '10px',
-                padding: '8px',
-                width: '170px',
-                boxShadow: 'var(--shadow-lg)',
-                zIndex: 60,
-              }}
-            >
-              {fontPresets.map((font) => (
-                <button
-                  key={font}
-                  onClick={() => {
-                    updateSettings({ fontFamily: font });
-                    setShowFontMenu(false);
-                  }}
-                  style={{
-                    width: '100%',
-                    textAlign: 'left',
-                    padding: '8px 10px',
-                    borderRadius: '6px',
-                    background: resume.settings.fontFamily === font ? 'rgba(37, 99, 235, 0.2)' : 'transparent',
-                    border: 'none',
-                    color: resume.settings.fontFamily === font ? '#60a5fa' : '#e2e8f0',
-                    cursor: 'pointer',
-                    fontSize: '0.85rem',
-                    fontWeight: 600,
-                    fontFamily: getFontFamilyCSS(font),
-                  }}
-                >
-                  {font}
-                </button>
-              ))}
+            <div className="dropdown-menu" style={{ width: '175px' }}>
+              {fontPresets.map((font) => {
+                const isActive = resume.settings.fontFamily === font;
+                return (
+                  <button
+                    key={font}
+                    onClick={() => {
+                      updateSettings({ fontFamily: font });
+                      setShowFontMenu(false);
+                    }}
+                    className={`dropdown-item ${isActive ? 'active' : ''}`}
+                    style={{
+                      fontSize: '0.8rem',
+                      fontWeight: isActive ? 600 : 500,
+                      fontFamily: getFontFamilyCSS(font),
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <span>{font}</span>
+                    {isActive && <Check size={13} color="var(--text-main)" />}
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>
 
-        {/* LinkedIn Connection Status / Action */}
         {/* LinkedIn PDF Import Action */}
         <button
           onClick={onOpenLinkedInModal}
-          className={`btn btn-sm ${isLinkedInConnected ? 'btn-secondary' : 'btn-linkedin'}`}
-          title="Auto-Fill dari LinkedIn PDF"
+          className="btn btn-linkedin btn-sm"
+          title="Impor data dari PDF profil LinkedIn"
         >
-          <Linkedin size={15} />
-          <span>{isLinkedInConnected ? linkedInAccount?.name?.split(' ')[0] || 'Terisi' : 'Import LinkedIn PDF'}</span>
+          <span>
+            {isLinkedInConnected
+              ? `LinkedIn: ${linkedInAccount?.name?.split(' ')[0] || 'Aktif'}`
+              : 'Import LinkedIn PDF'}
+          </span>
+          <ArrowUpRight size={13} color="var(--text-muted)" />
         </button>
 
         {/* Print Button */}
-        <button onClick={printResume} className="btn btn-secondary btn-sm" title="Print Resume">
-          <Printer size={15} />
+        <button onClick={printResume} className="btn btn-secondary btn-sm" title="Cetak CV">
+          <Printer size={14} />
         </button>
 
         {/* Primary Download PDF */}
         <button
           onClick={handleDownloadPdf}
           disabled={isExporting}
-          className="btn btn-primary"
+          className="btn btn-primary btn-sm"
+          style={{ padding: '6px 13px' }}
         >
-          <Download size={16} />
-          <span>{isExporting ? 'Generating...' : 'Download PDF'}</span>
+          <Download size={14} />
+          <span>{isExporting ? 'Menyiapkan...' : 'Download PDF'}</span>
         </button>
       </div>
     </nav>

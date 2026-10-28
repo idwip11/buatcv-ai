@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useResumeStore } from '@/store/useResumeStore';
-import { Briefcase, Plus, Trash2, ChevronDown, ChevronUp, Lightbulb, MoveUp, MoveDown } from 'lucide-react';
+import { Plus, Trash2, ChevronDown, ChevronUp, MoveUp, MoveDown } from 'lucide-react';
 
 const bulletInspirations = [
   'Architected and deployed microservices that scaled to handle 10M+ requests per day with 99.99% uptime.',
@@ -39,28 +39,25 @@ export const ExperienceForm: React.FC = () => {
       <div className="form-section-card">
         <div className="section-title-wrap">
           <div>
-            <h2 className="section-title">
-              <Briefcase size={18} color="var(--primary)" />
-              Work Experience
-            </h2>
-            <p className="section-desc">Highlight your professional track record, impact, and roles</p>
+            <h2 className="section-title">Work Experience</h2>
+            <p className="section-desc">Riwayat pekerjaan, tanggung jawab utama, dan pencapaian terukur</p>
           </div>
           <button onClick={() => addExperience()} className="btn btn-primary btn-sm">
-            <Plus size={14} />
+            <Plus size={13} />
             <span>Add Position</span>
           </button>
         </div>
 
         {experiences.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '30px', color: '#94a3b8' }}>
-            <p style={{ fontSize: '0.85rem', marginBottom: '12px' }}>No work experiences added yet.</p>
+          <div style={{ textAlign: 'center', padding: '28px', color: 'var(--text-muted)' }}>
+            <p style={{ fontSize: '0.84rem', marginBottom: '12px' }}>Belum ada pengalaman kerja yang ditambahkan.</p>
             <button onClick={() => addExperience()} className="btn btn-secondary btn-sm">
-              <Plus size={14} />
-              Add Your First Role
+              <Plus size={13} />
+              <span>Add Your First Role</span>
             </button>
           </div>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {experiences.map((exp, index) => {
               const isExpanded = expandedId === exp.id;
 
@@ -70,7 +67,7 @@ export const ExperienceForm: React.FC = () => {
                     <div>
                       <div className="item-card-title">{exp.title || 'Untitled Position'}</div>
                       <div className="item-card-subtitle">
-                        {exp.company || 'Company'} • {exp.startDate || 'Date'} – {exp.current ? 'Present' : exp.endDate || ''}
+                        {exp.company || 'Company'} · {exp.startDate || 'Date'} – {exp.current ? 'Present' : exp.endDate || ''}
                       </div>
                     </div>
 
@@ -96,19 +93,25 @@ export const ExperienceForm: React.FC = () => {
                       <button
                         onClick={() => deleteExperience(exp.id)}
                         className="btn btn-ghost btn-sm"
-                        style={{ color: '#f87171' }}
+                        style={{ color: 'var(--text-muted)' }}
                         title="Delete Role"
                       >
                         <Trash2 size={14} />
                       </button>
                       <button onClick={() => toggleExpand(exp.id)} className="btn btn-ghost btn-sm">
-                        {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                        {isExpanded ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
                       </button>
                     </div>
                   </div>
 
                   {isExpanded && (
-                    <div style={{ marginTop: '16px', borderTop: '1px solid #334155', paddingTop: '16px' }}>
+                    <div
+                      style={{
+                        marginTop: '14px',
+                        borderTop: '1px solid var(--border-subtle)',
+                        paddingTop: '14px',
+                      }}
+                    >
                       <div className="form-grid">
                         <div className="form-group">
                           <label className="form-label">Job Title *</label>
@@ -127,7 +130,7 @@ export const ExperienceForm: React.FC = () => {
                             type="text"
                             value={exp.company}
                             onChange={(e) => updateExperience(exp.id, { company: e.target.value })}
-                            placeholder="e.g. Google or Tech Startup"
+                            placeholder="e.g. GoTo Financial"
                             className="form-input"
                           />
                         </div>
@@ -149,10 +152,10 @@ export const ExperienceForm: React.FC = () => {
                             <label
                               style={{
                                 fontSize: '0.74rem',
-                                color: '#94a3b8',
+                                color: 'var(--text-muted)',
                                 display: 'flex',
                                 alignItems: 'center',
-                                gap: '4px',
+                                gap: '5px',
                                 cursor: 'pointer',
                               }}
                             >
@@ -168,7 +171,7 @@ export const ExperienceForm: React.FC = () => {
                             type="text"
                             value={exp.startDate}
                             onChange={(e) => updateExperience(exp.id, { startDate: e.target.value })}
-                            placeholder="e.g. 2022-01 or Jan 2022"
+                            placeholder="e.g. Jan 2022"
                             className="form-input"
                           />
                         </div>
@@ -180,7 +183,7 @@ export const ExperienceForm: React.FC = () => {
                               type="text"
                               value={exp.endDate}
                               onChange={(e) => updateExperience(exp.id, { endDate: e.target.value })}
-                              placeholder="e.g. 2024-03 or Present"
+                              placeholder="e.g. Mar 2024"
                               className="form-input"
                             />
                           </div>
@@ -199,7 +202,14 @@ export const ExperienceForm: React.FC = () => {
 
                         {/* Bullet Points */}
                         <div className="form-group form-grid-full">
-                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                          <div
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                              marginBottom: '6px',
+                            }}
+                          >
                             <label className="form-label">Key Achievements & Impact (Bullet Points)</label>
                             <button
                               type="button"
@@ -213,7 +223,7 @@ export const ExperienceForm: React.FC = () => {
                           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                             {(exp.bulletPoints || []).map((bullet, bIdx) => (
                               <div key={bIdx} style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                                <span style={{ color: '#60a5fa', fontWeight: 800 }}>•</span>
+                                <span style={{ color: 'var(--text-muted)', fontWeight: 600 }}>·</span>
                                 <input
                                   type="text"
                                   value={bullet}
@@ -226,7 +236,7 @@ export const ExperienceForm: React.FC = () => {
                                 <button
                                   onClick={() => handleDeleteBullet(exp.id, exp.bulletPoints || [], bIdx)}
                                   className="btn btn-ghost btn-sm"
-                                  style={{ color: '#94a3b8' }}
+                                  style={{ color: 'var(--text-muted)' }}
                                 >
                                   <Trash2 size={13} />
                                 </button>
@@ -238,26 +248,15 @@ export const ExperienceForm: React.FC = () => {
                           <div
                             style={{
                               marginTop: '12px',
-                              padding: '10px',
-                              background: 'rgba(15, 23, 42, 0.4)',
-                              borderRadius: '8px',
-                              border: '1px solid #334155',
+                              padding: '12px',
+                              background: 'var(--bg-subtle)',
+                              borderRadius: '6px',
+                              border: '1px solid var(--border-subtle)',
                             }}
                           >
-                            <div
-                              style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '6px',
-                                fontSize: '0.74rem',
-                                color: '#38bdf8',
-                                fontWeight: 700,
-                                marginBottom: '6px',
-                              }}
-                            >
-                              <Lightbulb size={12} />
-                              <span>Saran poin pencapaian profesional:</span>
-                            </div>
+                            <span className="suggestion-label" style={{ marginBottom: '6px' }}>
+                              Contoh Kalimat Pencapaian (Klik untuk Tambah)
+                            </span>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                               {bulletInspirations.slice(0, 3).map((insp, i) => (
                                 <button
@@ -268,14 +267,12 @@ export const ExperienceForm: React.FC = () => {
                                     textAlign: 'left',
                                     background: 'transparent',
                                     border: 'none',
-                                    color: '#94a3b8',
-                                    fontSize: '0.72rem',
+                                    color: 'var(--text-secondary)',
+                                    fontSize: '0.74rem',
                                     padding: '4px 6px',
                                     borderRadius: '4px',
                                     cursor: 'pointer',
                                   }}
-                                  onMouseEnter={(e) => (e.currentTarget.style.color = '#e2e8f0')}
-                                  onMouseLeave={(e) => (e.currentTarget.style.color = '#94a3b8')}
                                 >
                                   + {insp}
                                 </button>
